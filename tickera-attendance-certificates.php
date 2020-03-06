@@ -350,6 +350,9 @@ class TC_Attendance_Certificates {
 			$placeholders = array('$$event_name', '$$credit_hour_total', '$$name', '$$date', '$$course_num');
 			$values = array($api_key_name, $api_credit_hours, $attendee_name, $event_end_date, $api_key_aia_num);
 			$cert_html = str_replace($placeholders, $values, get_post_field('post_content', $api_key_pdf_temp));
+			if($cert_html == '') {
+				$cert_html = $event_pdf_temp;
+			}
 			
 			$pdf->AddPage();
 			$html = '<html>
@@ -378,7 +381,7 @@ class TC_Attendance_Certificates {
 	//    is created.
 	// --------------------------------------------------------------------------------
 	private function parse_checkins($checkins) {
-		$api_ids = array('');
+		$api_ids = array();
 
 		foreach($checkins as $checkin) {
 			$api_ids[] = $checkin['api_key_id'];
